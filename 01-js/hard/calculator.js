@@ -1,6 +1,7 @@
 /*
   Implement a class `Calculator` having below methods
     - initialize a result variable in the constructor and keep updating it after every arithmetic operation
+    - initialize a result variable in the constructor and keep updating it after every arithmetic operation
     - add: takes a number and adds it to the result
     - subtract: takes a number and subtracts it from the result
     - multiply: takes a number and multiply it to the result
