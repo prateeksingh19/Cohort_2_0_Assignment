@@ -6,7 +6,7 @@ const router = express.Router();
 // Admin Routes
 router.post('/signup', async (req, res) => {
     // Implement admin signup logic
-    const { username, password } = req.headers;
+    const { username, password } = req.body;
 
     const existingAdmin = await Admin.findOne({ username: username });
 

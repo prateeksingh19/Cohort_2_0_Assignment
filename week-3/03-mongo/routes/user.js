@@ -7,7 +7,7 @@ const { default: mongoose } = require("mongoose");
 // User Routes
 router.post('/signup', async (req, res) => {
     // Implement user signup logic
-    const { username, password } = req.headers;
+    const { username, password } = req.body;
 
     const existingUser = await User.findOne({ username: username });
 
@@ -34,6 +34,12 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     // Implement course purchase logic
     const { username, password } = req.headers;
     const courseId = req.params.courseId
+    
+    const user = await User.findOne({ username: username, password: password });
+
+    if (user.purchasedCourses.includes(courseId)) {
+        return res.status(400).json({ "msg": "Course already purchased by the user" });
+    }
 
     await User.updateOne(
         { username: username }, 
