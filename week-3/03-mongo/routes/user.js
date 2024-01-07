@@ -7,8 +7,7 @@ const { default: mongoose } = require("mongoose");
 // User Routes
 router.post('/signup', async (req, res) => {
     // Implement user signup logic
-    const username = req.body.username
-    const password = req.body.password
+    const { username, password } = req.headers;
 
     const existingUser = await User.findOne({ username: username });
 
@@ -22,8 +21,7 @@ router.post('/signup', async (req, res) => {
 
 router.get('/courses', async (req, res) => {
     // Implement listing all courses logic
-    const username = req.header.username
-    const password = req.header.password
+    const { username, password } = req.headers;
 
     const response = await Course.find({});
 

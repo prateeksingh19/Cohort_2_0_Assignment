@@ -6,8 +6,7 @@ const router = express.Router();
 // Admin Routes
 router.post('/signup', async (req, res) => {
     // Implement admin signup logic
-    const username = req.body.username
-    const password = req.body.password
+    const { username, password } = req.headers;
 
     const existingAdmin = await Admin.findOne({ username: username });
 
@@ -22,9 +21,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/courses', adminMiddleware, async (req, res) => {
     // Implement course creation logic
-    const username = req.header.username
-    const password = req.header.password
-    const _id = req.params.id
+    const { username, password } = req.headers;
     const title = req.body.title
     const description = req.body.description
     const price = req.body.price
@@ -44,8 +41,7 @@ router.post('/courses', adminMiddleware, async (req, res) => {
 
 router.get('/courses', adminMiddleware, async (req, res) => {
     // Implement fetching all courses logic
-    const username = req.header.username
-    const password = req.header.password
+    const { username, password } = req.headers;
 
     const response = await Course.find({});
 
