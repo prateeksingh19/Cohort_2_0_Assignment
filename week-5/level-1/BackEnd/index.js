@@ -36,10 +36,10 @@ app.post("/businessCard/create", async function (req, res) {
       twitter: createPayload.twitter,
       other: createPayload.other,
     });
-    if (result.createdCount === 1) {
+    if (result._id.toString()) {
       res.status(200).json({ msg: "Business Card Created" });
     } else {
-      res.status(404).json({ msg: "Business Card Not Found" });
+      res.status(404).json({ msg: "Business Card Not Created" });
     }
   } catch (error) {
     console.error("Error creating business card:", error);
@@ -57,10 +57,22 @@ app.put("/businessCard/update", async function (req, res) {
     return;
   }
   try {
-    const result = await businessCard.updateOne({ _id: createPayload.id });
-
-    if (result.updatedCount === 1) {
+    const result = await businessCard.updateOne(
+      { _id: createPayload.id },
+      {
+        title: createPayload.title,
+        description: createPayload.description,
+        interest: createPayload.interest,
+        linkedIn: createPayload.linkedIn,
+        twitter: createPayload.twitter,
+        other: createPayload.other,
+      }
+    );
+    console.log(result);
+    if (result.modifiedCount === 1) {
       res.status(200).json({ msg: "Business Card Updated" });
+    } else if (result.modifiedCount === 0 && result.matchedCount === 1) {
+      res.status(200).json({ msg: "Data is Same" });
     } else {
       res.status(404).json({ msg: "Business Card Not Found" });
     }
