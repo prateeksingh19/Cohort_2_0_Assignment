@@ -5,7 +5,7 @@ export default function BusinessCard(props) {
   ));
 
   return (
-    <div>
+    <div className="cardContainer">
       <p className="title">{props.title}</p>
       <p className="description">{props.description}</p>
       <p className="interests">Interests</p>
