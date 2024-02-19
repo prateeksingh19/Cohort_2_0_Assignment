@@ -90,7 +90,6 @@ app.delete("/businessCard/delete", async function (req, res) {
     });
     return;
   }
-  console.log(req.body);
   try {
     const result = await businessCard.deleteOne({ _id: createPayload.id });
 

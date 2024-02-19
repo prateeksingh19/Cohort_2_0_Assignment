@@ -9,7 +9,6 @@ function App() {
     axios
       .get("http://localhost:3000/businessCard")
       .then((response) => {
-        console.log(response.data.businessCards);
         setBusinessCard(response.data.businessCards);
       })
       .catch((error) => {

@@ -7,7 +7,6 @@ export default function BusinessCard(props) {
     <li key={index}>{interests}</li>
   ));
   function deleteButton() {
-    console.log(id);
     axios
       .delete("http://localhost:3000/businessCard/delete", {
         data: {
