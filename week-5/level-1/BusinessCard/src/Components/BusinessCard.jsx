@@ -1,8 +1,26 @@
+import axios from "axios";
+
 export default function BusinessCard(props) {
+  const id = props.id;
   const interest = props.interests;
   const interestElements = interest.map((interests, index) => (
     <li key={index}>{interests}</li>
   ));
+  function deleteButton() {
+    console.log(id);
+    axios
+      .delete("http://localhost:3000/businessCard/delete", {
+        data: {
+          id: id,
+        },
+      })
+      .then((response) => {
+        console.log("Server response:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error deleting:", error);
+      });
+  }
 
   return (
     <>
@@ -10,7 +28,9 @@ export default function BusinessCard(props) {
         <div className="upperDiv">
           <div className="upperButtonDiv">
             <button className="upperButton">Edit</button>
-            <button className="upperButton">Delete</button>
+            <button className="upperButton" onClick={deleteButton}>
+              Delete
+            </button>
           </div>
           <div className="dataDiv">
             <p className="title">{props.title}</p>

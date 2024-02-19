@@ -20,6 +20,7 @@ function App() {
   const businessCardElement = businessCard.map((data, index) => (
     <BusinessCard
       key={index}
+      id={data._id}
       title={data.title}
       description={data.description}
       interests={data.interest}
