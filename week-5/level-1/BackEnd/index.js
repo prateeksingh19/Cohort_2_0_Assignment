@@ -9,8 +9,13 @@ app.use(express.json());
 app.listen(3000);
 
 app.get("/businessCard", async function (req, res) {
-  const businessCards = await businessCard.find({});
-  res.json({ businessCards });
+  try {
+    const businessCards = await businessCard.find({});
+    res.json({ businessCards });
+  } catch (error) {
+    console.error("Error getting business card:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
 });
 
 app.post("/businessCard/create", async function (req, res) {
@@ -22,15 +27,24 @@ app.post("/businessCard/create", async function (req, res) {
     });
     return;
   }
-  await businessCard.create({
-    title: createPayload.title,
-    description: createPayload.description,
-    interest: createPayload.interest,
-    linkedIn: createPayload.linkedIn,
-    twitter: createPayload.twitter,
-    other: createPayload.other,
-  });
-  res.status(200).json({ msg: "Business Card Created" });
+  try {
+    const result = await businessCard.create({
+      title: createPayload.title,
+      description: createPayload.description,
+      interest: createPayload.interest,
+      linkedIn: createPayload.linkedIn,
+      twitter: createPayload.twitter,
+      other: createPayload.other,
+    });
+    if (result.createdCount === 1) {
+      res.status(200).json({ msg: "Business Card Created" });
+    } else {
+      res.status(404).json({ msg: "Business Card Not Found" });
+    }
+  } catch (error) {
+    console.error("Error creating business card:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
 });
 
 app.put("/businessCard/update", async function (req, res) {
@@ -42,18 +56,18 @@ app.put("/businessCard/update", async function (req, res) {
     });
     return;
   }
-  await businessCard.updateOne(
-    { _id: createPayload.id },
-    {
-      title: createPayload.title,
-      description: createPayload.description,
-      interest: createPayload.interest,
-      linkedIn: createPayload.linkedIn,
-      twitter: createPayload.twitter,
-      other: createPayload.other,
+  try {
+    const result = await businessCard.updateOne({ _id: createPayload.id });
+
+    if (result.updatedCount === 1) {
+      res.status(200).json({ msg: "Business Card Updated" });
+    } else {
+      res.status(404).json({ msg: "Business Card Not Found" });
     }
-  );
-  res.status(200).json({ msg: "Business Card Updated" });
+  } catch (error) {
+    console.error("Error updating business card:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
 });
 
 app.delete("/businessCard/delete", async function (req, res) {
@@ -65,6 +79,16 @@ app.delete("/businessCard/delete", async function (req, res) {
     });
     return;
   }
-  await businessCard.deleteOne({ _id: createPayload.id });
-  res.status(200).json({ msg: "Business Card Deleted" });
+  try {
+    const result = await businessCard.deleteOne({ _id: createPayload.id });
+
+    if (result.deletedCount === 1) {
+      res.status(200).json({ msg: "Business Card Deleted" });
+    } else {
+      res.status(404).json({ msg: "Business Card Not Found" });
+    }
+  } catch (error) {
+    console.error("Error deleting business card:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
 });
