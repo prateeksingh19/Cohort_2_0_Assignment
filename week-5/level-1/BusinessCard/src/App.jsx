@@ -16,8 +16,10 @@ function App() {
         console.error("Error:", error);
       });
   }, []);
-  const businessCardElement = businessCard.map((data) => (
+
+  const businessCardElement = businessCard.map((data, index) => (
     <BusinessCard
+      key={index}
       title={data.title}
       description={data.description}
       interests={data.interest}
@@ -26,7 +28,7 @@ function App() {
       otherLinks={data.other}
     />
   ));
-  return <>{businessCardElement}</>;
+  return <div className="mainDiv">{businessCardElement}</div>;
 }
 
 export default App;
