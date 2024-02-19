@@ -68,7 +68,6 @@ app.put("/businessCard/update", async function (req, res) {
         other: createPayload.other,
       }
     );
-    console.log(result);
     if (result.modifiedCount === 1) {
       res.status(200).json({ msg: "Business Card Updated" });
     } else if (result.modifiedCount === 0 && result.matchedCount === 1) {
