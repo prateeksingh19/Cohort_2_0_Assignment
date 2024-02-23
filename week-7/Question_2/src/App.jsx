@@ -1,10 +1,15 @@
 import React from "react";
 import "./App.css";
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+import {
+  RecoilRoot,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import { colorFamily } from "./atoms";
 
 function ColorButton({ id, color }) {
-  const [value, setValue] = useRecoilState(colorFamily(0));
+  const setValue = useSetRecoilState(colorFamily(0));
 
   function buttonClick() {
     setValue({ id });
