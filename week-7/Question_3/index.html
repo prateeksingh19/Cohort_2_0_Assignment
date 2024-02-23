@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const reactElement = {
+        type: "a",
+        props: {
+          href: "https://www.google.com/",
+          target: "_blank",
+        },
+        children: ["Click me"],
+      };
+
+      function generateHTML(element) {
+        const { type, props, children } = element;
+        const attributes = Object.entries(props)
+          .map(([key, value]) => `${key}="${value}"`)
+          .join(" ");
+
+        const childHTML = children ? children.join("") : "";
+        return `<${type} ${attributes}>${childHTML}</${type}>`;
+      }
+
+      function customRender(html, targetId) {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.innerHTML = html;
+        } else {
+          console.error(`Target element with ID '${targetId}' not found.`);
+        }
+      }
+
+      const htmlCode = generateHTML(reactElement);
+
+      customRender(htmlCode, "root");
+    </script>
+  </body>
+</html>
