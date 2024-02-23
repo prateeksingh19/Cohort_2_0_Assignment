@@ -1,0 +1,14 @@
+.buttonDiv {
+  background-color: white;
+  height: 35px;
+  width: 800px;
+  display: flex;
+  position: absolute;
+  left: 700px;
+  transform: translate(-50%, -300%);
+  object-fit: cover;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-top: 3px;
+  border-bottom: 2px solid #dfdfdf;
+}
