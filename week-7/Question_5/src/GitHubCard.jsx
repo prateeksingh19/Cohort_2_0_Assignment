@@ -19,15 +19,7 @@ export default function GitHubCard() {
       });
   }, [details.repos_url]);
 
-  if (repos && Array.isArray(repos)) {
-    const repoDetails = repos.map((repo) => ({
-      name: repo.name,
-      html_url: repo.html_url,
-    }));
-  } else {
-    console.error("Invalid or missing repos data");
-  }
-  let repoElements;
+  let repoElements = [];
   if (repos && Array.isArray(repos)) {
     repoElements = repos.map((repo) => (
       <li key={repo.id}>
@@ -36,10 +28,7 @@ export default function GitHubCard() {
         </a>
       </li>
     ));
-  } else {
-    console.error("Invalid or missing repos data");
   }
-
   const data = useRecoilValue(dataAtom);
   return (
     <div>
@@ -49,7 +38,14 @@ export default function GitHubCard() {
       {data && <p>Github Followers: {details.followers}</p>}
       {data && <p>Github Following: {details.following}</p>}
       {data && <p>Public Repos : </p>}
-      {data && <ul>{repoElements}</ul>}
+      {data ? (
+        repoElements.length > 0 ? (
+          <ul>{repoElements}</ul>
+        ) : (
+          <p>No Repos Found</p>
+        )
+      ) : null}
+
       {data ? (
         details.twitter_username ? (
           <a
