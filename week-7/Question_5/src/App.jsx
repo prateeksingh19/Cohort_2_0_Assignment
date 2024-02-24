@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import axios from "axios";
+import "./App.css";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { dataAtom, detailsAtom } from "./atom";
+import GitHubCard from "./GitHubCard";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [username, setUsername] = useState("");
+  const [details, setDetails] = useRecoilState(detailsAtom);
+  const [data, setData] = useRecoilState(dataAtom);
+  function handleChange(e) {
+    setUsername(e.target.value);
+  }
+  function showDetails() {
+    axios
+      .get(`https://api.github.com/users/${username}`)
+      .then((response) => {
+        setDetails(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user details:", error);
+      });
+    setData(true);
+  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <div className="inputDiv">
+        <p>Github User Name: </p>
+        <input
+          type="text"
+          placeholder="Enter your GitHub Username"
+          onChange={(e) => {
+            handleChange(e);
+          }}
+        />
+        <button onClick={showDetails}>Show Details</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <GitHubCard />
+    </div>
+  );
 }
 
-export default App
+export default App;
