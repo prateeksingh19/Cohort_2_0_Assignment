@@ -18,8 +18,14 @@ function App() {
   const [sentences, setSentences] = useState([]);
   const words = ["hi", "my", "name", "is", "for", "to", "random", "word"];
 
+  // Use useMemo to cache the result of generateRandomSentences
+  const memoizedSentences = useMemo(
+    () => generateRandomSentences(length, words),
+    [length]
+  );
+
   const generateSentences = () => {
-    setSentences(generateRandomSentences(length, words));
+    setSentences(memoizedSentences);
     setShow(true);
   };
 
